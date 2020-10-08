@@ -13,5 +13,13 @@
             "email": "gustavo04616@gmail.com"
         }
     ],
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Application\\": "./src/Application",
+            "Domain\\": "./src/Domain",
+            "Infrastructure\\": "./src/Infrastructure",
+            "Tests\\": "./tests/"
+        }
+    }
 }
