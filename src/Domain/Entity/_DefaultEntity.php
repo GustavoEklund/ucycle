@@ -16,12 +16,13 @@ class _DefaultEntity
     private UuidInterface $uuid;
     private bool $active;
     private DateTime $created_at;
+    private DateTime $updated_at;
 
     public function __construct()
     {
         $this->uuid = Uuid::uuid4();
         $this->active = true;
-        $this->created_at = new DateTime;
+        $this->created_at = $this->updated_at = new DateTime;
     }
 
     public function getUuid(): UuidInterface
@@ -60,6 +61,12 @@ class _DefaultEntity
 
     public function getUpdatedAt(): DateTime
     {
-        return new DateTime;
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(DateTime $date_time): _DefaultEntity
+    {
+        $this->updated_at = $date_time;
+        return $this;
     }
 }

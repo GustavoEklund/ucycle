@@ -100,4 +100,19 @@ class _DefaultEntityTest extends TestCase
             $this->sut->getUpdatedAt()->getTimestamp()
         );
     }
+
+    public function test_assert_can_set_updated_at(): void
+    {
+        // Arrange
+        $date_time = new DateTime('now + 3 days');
+
+        // Act
+        $this->sut->setUpdatedAt($date_time);
+
+        // Assert
+        self::assertEquals(
+            $date_time->getTimestamp(),
+            $this->sut->getUpdatedAt()->getTimestamp()
+        );
+    }
 }
