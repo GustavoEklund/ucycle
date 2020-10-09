@@ -38,4 +38,9 @@ class _DefaultEntityTest extends TestCase
         // Assert
         self::assertEquals($uuid_stub, $this->sut->getUuid());
     }
+
+    public function test_assert_entity_starts_with_active_true_status(): void
+    {
+        self::assertTrue($this->sut->isActive());
+    }
 }

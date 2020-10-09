@@ -28,4 +28,9 @@ class _DefaultEntity
         $this->uuid = $uuid;
         return $this;
     }
+
+    public function isActive(): bool
+    {
+        return true;
+    }
 }
