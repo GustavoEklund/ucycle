@@ -1,8 +1,10 @@
 <?php
 
-namespace Domain\Entity;
+namespace Tests\Domain\Entity;
 
 use DateTime;
+use RangeException;
+use Domain\Entity\_DefaultEntity;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\{
     Uuid,
@@ -11,7 +13,7 @@ use Ramsey\Uuid\{
 
 /**
  * Class _DefaultEntityTest
- * @package Domain\Entity
+ * @package TestsDomain\Entity
  */
 class _DefaultEntityTest extends TestCase
 {
@@ -78,5 +80,16 @@ class _DefaultEntityTest extends TestCase
             $date_time->getTimestamp(),
             $this->sut->getCreatedAt()->getTimestamp()
         );
+    }
+
+    public function test_assert_set_created_at_before_now_throws_exception(): void
+    {
+        // Arrange
+        $this->expectException(RangeException::class);
+        $this->expectExceptionMessage('The date time can\'t be before now.');
+        $this->expectExceptionCode(500);
+
+        // Act, Assert
+        $this->sut->setCreatedAt(new DateTime('2020-01-01'));
     }
 }

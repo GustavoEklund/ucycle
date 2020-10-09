@@ -2,6 +2,7 @@
 
 namespace Domain\Entity;
 
+use Application\Validation\DateTimeValidator;
 use DateTime;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -52,6 +53,7 @@ class _DefaultEntity
 
     public function setCreatedAt(DateTime $date_time): _DefaultEntity
     {
+        (new DateTimeValidator)->validate($date_time);
         $this->created_at = $date_time;
         return $this;
     }
