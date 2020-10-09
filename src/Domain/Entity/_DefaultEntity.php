@@ -2,6 +2,7 @@
 
 namespace Domain\Entity;
 
+use DateTime;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
@@ -40,5 +41,10 @@ class _DefaultEntity
     {
         $this->active = $active;
         return $this;
+    }
+
+    public function getCreatedAt(): DateTime
+    {
+        return (new DateTime('now'));
     }
 }

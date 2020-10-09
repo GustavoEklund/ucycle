@@ -2,6 +2,7 @@
 
 namespace Domain\Entity;
 
+use DateTime;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\{
     Uuid,
@@ -54,5 +55,13 @@ class _DefaultEntityTest extends TestCase
 
         // Assert
         self::assertEquals($active, $this->sut->isActive());
+    }
+
+    public function test_assert_entity_starts_with_created_at_set_to_now(): void
+    {
+        self::assertEquals(
+            (new DateTime('now'))->getTimestamp(),
+            $this->sut->getCreatedAt()->getTimestamp()
+        );
     }
 }
