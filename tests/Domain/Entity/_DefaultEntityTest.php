@@ -43,4 +43,16 @@ class _DefaultEntityTest extends TestCase
     {
         self::assertTrue($this->sut->isActive());
     }
+
+    public function test_can_set_active_status(): void
+    {
+        // Arrange
+        $active = false;
+
+        // Act
+        $this->sut->setActive($active);
+
+        // Assert
+        self::assertEquals($active, $this->sut->isActive());
+    }
 }

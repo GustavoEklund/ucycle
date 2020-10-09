@@ -12,10 +12,12 @@ use Ramsey\Uuid\UuidInterface;
 class _DefaultEntity
 {
     private UuidInterface $uuid;
+    private bool $active;
 
     public function __construct()
     {
         $this->uuid = Uuid::uuid4();
+        $this->active = true;
     }
 
     public function getUuid(): UuidInterface
@@ -31,6 +33,12 @@ class _DefaultEntity
 
     public function isActive(): bool
     {
-        return true;
+        return $this->active;
+    }
+
+    public function setActive(bool $active): _DefaultEntity
+    {
+        $this->active = $active;
+        return $this;
     }
 }
