@@ -11,8 +11,21 @@ use Ramsey\Uuid\UuidInterface;
  */
 class _DefaultEntity
 {
+    private UuidInterface $uuid;
+
+    public function __construct()
+    {
+        $this->uuid = Uuid::uuid4();
+    }
+
     public function getUuid(): UuidInterface
     {
-        return Uuid::uuid4();
+        return $this->uuid;
+    }
+
+    public function setUuid(UuidInterface $uuid): _DefaultEntity
+    {
+        $this->uuid = $uuid;
+        return $this;
     }
 }

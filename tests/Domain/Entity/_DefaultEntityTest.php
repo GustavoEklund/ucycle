@@ -3,6 +3,10 @@
 namespace Domain\Entity;
 
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\{
+    Uuid,
+    UuidInterface,
+};
 
 /**
  * Class _DefaultEntityTest
@@ -20,5 +24,18 @@ class _DefaultEntityTest extends TestCase
     public function test_assert_entity_starts_with_uuid(): void
     {
         self::assertNotEmpty($this->sut->getUuid());
+    }
+
+    public function test_can_set_valid_uuid(): void
+    {
+        // Arrange
+        /** @var Uuid $uuid_stub */
+        $uuid_stub = $this->createMock(UuidInterface::class);
+
+        // Act
+        $this->sut->setUuid($uuid_stub);
+
+        // Assert
+        self::assertEquals($uuid_stub, $this->sut->getUuid());
     }
 }
