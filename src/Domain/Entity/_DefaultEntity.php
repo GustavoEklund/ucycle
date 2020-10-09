@@ -14,11 +14,13 @@ class _DefaultEntity
 {
     private UuidInterface $uuid;
     private bool $active;
+    private DateTime $created_at;
 
     public function __construct()
     {
         $this->uuid = Uuid::uuid4();
         $this->active = true;
+        $this->created_at = new DateTime;
     }
 
     public function getUuid(): UuidInterface
@@ -45,6 +47,12 @@ class _DefaultEntity
 
     public function getCreatedAt(): DateTime
     {
-        return (new DateTime('now'));
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(DateTime $date_time): _DefaultEntity
+    {
+        $this->created_at = $date_time;
+        return $this;
     }
 }

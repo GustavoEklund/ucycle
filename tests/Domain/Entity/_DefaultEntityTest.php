@@ -64,4 +64,19 @@ class _DefaultEntityTest extends TestCase
             $this->sut->getCreatedAt()->getTimestamp()
         );
     }
+
+    public function test_assert_can_set_created_at(): void
+    {
+        // Arrange
+        $date_time = new DateTime('now + 3 days');
+
+        // Act
+        $this->sut->setCreatedAt($date_time);
+
+        // Assert
+        self::assertEquals(
+            $date_time->getTimestamp(),
+            $this->sut->getCreatedAt()->getTimestamp()
+        );
+    }
 }
