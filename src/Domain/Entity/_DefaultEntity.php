@@ -57,4 +57,9 @@ class _DefaultEntity
         $this->created_at = $date_time;
         return $this;
     }
+
+    public function getUpdatedAt(): DateTime
+    {
+        return new DateTime;
+    }
 }

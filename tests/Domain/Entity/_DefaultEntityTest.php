@@ -92,4 +92,12 @@ class _DefaultEntityTest extends TestCase
         // Act, Assert
         $this->sut->setCreatedAt(new DateTime('2020-01-01'));
     }
+
+    public function test_assert_entity_starts_with_updated_at_set_to_now(): void
+    {
+        self::assertEquals(
+            (new DateTime('now'))->getTimestamp(),
+            $this->sut->getUpdatedAt()->getTimestamp()
+        );
+    }
 }
