@@ -66,6 +66,7 @@ class _DefaultEntity
 
     public function setUpdatedAt(DateTime $date_time): _DefaultEntity
     {
+        (new DateTimeValidator)->validate($date_time);
         $this->updated_at = $date_time;
         return $this;
     }

@@ -115,4 +115,15 @@ class _DefaultEntityTest extends TestCase
             $this->sut->getUpdatedAt()->getTimestamp()
         );
     }
+
+    public function test_assert_set_updated_at_before_now_throws_exception(): void
+    {
+        // Arrange
+        $this->expectException(RangeException::class);
+        $this->expectExceptionMessage('The date time can\'t be before now.');
+        $this->expectExceptionCode(500);
+
+        // Act, Assert
+        $this->sut->setUpdatedAt(new DateTime('2020-01-01'));
+    }
 }
