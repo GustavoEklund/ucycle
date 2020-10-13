@@ -3,6 +3,7 @@
 namespace Tests\Application\Validation;
 
 use Application\Validation\FullNameValidator;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use RangeException;
 
@@ -26,6 +27,15 @@ class FullNameValidatorTest extends TestCase
             ['Any F Name'],
             ['ANY FULL N'],
         ];
+    }
+
+    public function test_assert_full_name_with_less_than_2_names(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('O nome completo deve ter pelo menos 2 nomes.');
+        $this->expectExceptionCode(400);
+
+        $this->sut->validate('FullName');
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Application\Validation;
 
+use InvalidArgumentException;
 use RangeException;
 
 /**
@@ -13,6 +14,11 @@ class FullNameValidator
     public function validate(string $full_name): string
     {
         $name_array = explode(' ', $full_name);
+
+        if (count($name_array) < 2) {
+            throw new InvalidArgumentException('O nome completo deve ter pelo menos 2 nomes.', 400);
+        } // if
+
 
         foreach ($name_array as $value) {
             if (strlen($value) < 2) {
