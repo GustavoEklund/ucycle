@@ -31,6 +31,13 @@ class FullNameValidator
 
     public function parseFullName(string $full_name): string
     {
-        return ucwords(strtolower($full_name));
+        return ucwords(
+            strtolower(
+                filter_var(
+                    $full_name,
+                    FILTER_SANITIZE_SPECIAL_CHARS
+                )
+            )
+        );
     }
 }

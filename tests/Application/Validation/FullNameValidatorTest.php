@@ -60,4 +60,12 @@ class FullNameValidatorTest extends TestCase
             $this->sut->parseFullName('ANY FULL NAME')
         );
     }
+
+    public function test_assert_parse_full_name_removes_special_characters(): void
+    {
+        self::assertNotEquals(
+            'ANY <FULL/> NAME #',
+            $this->sut->parseFullName('ANY <FULL/> NAME #',)
+        );
+    }
 }
