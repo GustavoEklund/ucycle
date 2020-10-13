@@ -22,4 +22,16 @@ class UserTest extends TestCase
     {
         self::assertNull($this->sut->getFullName());
     }
+
+    public function test_can_set_full_name(): void
+    {
+        // Arrange
+        $full_name = 'AnyFullName';
+
+        // Act
+        $this->sut->setFullName($full_name);
+
+        // Assert
+        self::assertEquals($full_name, $this->sut->getFullName());
+    }
 }
