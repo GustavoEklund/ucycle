@@ -26,6 +26,11 @@ class FullNameValidator
             } // if
         } // foreach
 
-        return $full_name;
+        return $this->parseFullName($full_name);
+    }
+
+    public function parseFullName(string $full_name): string
+    {
+        return ucwords(strtolower($full_name));
     }
 }

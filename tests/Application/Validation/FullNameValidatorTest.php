@@ -52,4 +52,12 @@ class FullNameValidatorTest extends TestCase
         // Act, Assert
         $this->sut->validate($full_name);
     }
+
+    public function test_assert_parse_full_name_makes_all_words_lowercase_and_first_letter_capital(): void
+    {
+        self::assertEquals(
+            'Any Full Name',
+            $this->sut->parseFullName('ANY FULL NAME')
+        );
+    }
 }
