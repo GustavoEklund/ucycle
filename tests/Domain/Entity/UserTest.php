@@ -46,4 +46,9 @@ class UserTest extends TestCase
         // Act, Assert
         $this->sut->setFullName('InvalidFullName');
     }
+
+    public function test_assert_get_null_email_when_not_defined(): void
+    {
+        self::assertNull($this->sut->getEmail());
+    }
 }

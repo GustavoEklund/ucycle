@@ -22,4 +22,9 @@ class User extends _DefaultEntity
         $this->full_name = (new FullNameValidator())->validate($full_name);
         return $this;
     }
+
+    public function getEmail(): ?string
+    {
+        return null;
+    }
 }
