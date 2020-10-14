@@ -2,6 +2,7 @@
 
 namespace Domain\Entity;
 
+use Application\Validation\EmailValidator;
 use Application\Validation\FullNameValidator;
 
 /**
@@ -31,7 +32,7 @@ class User extends _DefaultEntity
 
     public function setEmail(string $email): User
     {
-        $this->email = $email;
+        $this->email = (new EmailValidator)->validate($email);
         return $this;
     }
 }

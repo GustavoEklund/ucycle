@@ -63,4 +63,15 @@ class UserTest extends TestCase
         // Assert
         self::assertEquals($email, $this->sut->getEmail());
     }
+
+    public function test_assert_set_invalid_email_throws_exception(): void
+    {
+        // Arrange
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Email inválido.');
+        $this->expectExceptionCode(400);
+
+        // Act, Assert
+        $this->sut->setEmail('invalid@mail');
+    }
 }
