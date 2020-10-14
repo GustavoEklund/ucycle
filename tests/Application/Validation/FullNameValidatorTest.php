@@ -68,4 +68,12 @@ class FullNameValidatorTest extends TestCase
             $this->sut->parseFullName('ANY <FULL/> NAME #',)
         );
     }
+
+    public function test_assert_validate_parses_the_full_name_before_returning(): void
+    {
+        self::assertEquals(
+            'Any Full Name',
+            $this->sut->validate('aNY fULL nAME')
+        );
+    }
 }
