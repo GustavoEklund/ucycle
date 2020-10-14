@@ -13,6 +13,7 @@ class User extends _DefaultEntity
 {
     private string $full_name;
     private string $email;
+    private string $password;
 
     public function getFullName(): ?string
     {
@@ -33,6 +34,12 @@ class User extends _DefaultEntity
     public function setEmail(string $email): User
     {
         $this->email = (new EmailValidator)->validate($email);
+        return $this;
+    }
+
+    public function setPassword(string $password): User
+    {
+        $this->password = $password;
         return $this;
     }
 }

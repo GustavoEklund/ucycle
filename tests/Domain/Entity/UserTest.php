@@ -74,4 +74,13 @@ class UserTest extends TestCase
         // Act, Assert
         $this->sut->setEmail('invalid@mail');
     }
+
+    public function test_can_set_password(): void
+    {
+        // Arrange, Act
+        $this->sut->setPassword('any_password_123456');
+
+        // Assert
+        $this->addToAssertionCount(1);
+    }
 }
