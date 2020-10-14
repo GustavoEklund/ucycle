@@ -3,6 +3,7 @@
 namespace Application\Validation;
 
 use InvalidArgumentException;
+use Respect\Validation\Validator;
 
 /**
  * Class EmailValidator
@@ -12,6 +13,10 @@ class EmailValidator
 {
     public function validate(string $email): string
     {
-        throw new InvalidArgumentException('Email inválido.', 400);
+        if (!Validator::email()->validate($email)) {
+            throw new InvalidArgumentException('Email inválido.', 400);
+        }
+
+        return $email;
     }
 }
