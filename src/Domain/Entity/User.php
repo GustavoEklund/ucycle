@@ -11,6 +11,7 @@ use Application\Validation\FullNameValidator;
 class User extends _DefaultEntity
 {
     private string $full_name;
+    private string $email;
 
     public function getFullName(): ?string
     {
@@ -25,6 +26,12 @@ class User extends _DefaultEntity
 
     public function getEmail(): ?string
     {
-        return null;
+        return $this->email ?? null;
+    }
+
+    public function setEmail(string $email): User
+    {
+        $this->email = $email;
+        return $this;
     }
 }

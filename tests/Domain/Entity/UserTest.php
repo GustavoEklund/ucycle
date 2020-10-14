@@ -27,7 +27,7 @@ class UserTest extends TestCase
     public function test_can_set_full_name(): void
     {
         // Arrange
-        $full_name = 'AnyFullName';
+        $full_name = 'Any Full Name';
 
         // Act
         $this->sut->setFullName($full_name);
@@ -50,5 +50,17 @@ class UserTest extends TestCase
     public function test_assert_get_null_email_when_not_defined(): void
     {
         self::assertNull($this->sut->getEmail());
+    }
+
+    public function test_can_set_email(): void
+    {
+        // Arrange
+        $email = 'any_email@any.mail.com';
+
+        // Act
+        $this->sut->setEmail($email);
+
+        // Assert
+        self::assertEquals($email, $this->sut->getEmail());
     }
 }
