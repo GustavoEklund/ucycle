@@ -2,6 +2,8 @@
 
 namespace Domain\Entity;
 
+use Application\Validation\FullNameValidator;
+
 /**
  * Class User
  * @package Domain\Entity
@@ -17,7 +19,7 @@ class User extends _DefaultEntity
 
     public function setFullName(string $full_name): User
     {
-        $this->full_name = $full_name;
+        $this->full_name = (new FullNameValidator())->validate($full_name);
         return $this;
     }
 }

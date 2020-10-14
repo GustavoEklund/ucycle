@@ -3,6 +3,7 @@
 namespace Tests\Domain\Entity;
 
 use Domain\Entity\User;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -33,5 +34,16 @@ class UserTest extends TestCase
 
         // Assert
         self::assertEquals($full_name, $this->sut->getFullName());
+    }
+
+    public function test_assert_set_invalid_full_name_throws_exception(): void
+    {
+        // Arrange
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('O nome completo deve ter pelo menos 2 nomes.');
+        $this->expectExceptionCode(400);
+
+        // Act, Assert
+        $this->sut->setFullName('InvalidFullName');
     }
 }
