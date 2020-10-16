@@ -5,15 +5,49 @@ namespace Domain\Entity;
 use Application\Validation\EmailValidator;
 use Application\Validation\FullNameValidator;
 use Application\Validation\PasswordValidator;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class User
  * @package Domain\Entity
+ *
+ * @ORM\Entity()
+ * @ORM\Table(name="user")
  */
 class User extends _DefaultEntity
 {
+    /**
+     * @ORM\Column(
+     *     name="full_name",
+     *     type="string",
+     *     length=128,
+     *     nullable=false,
+     *     options={"comment":"Nome completo do usuário"}
+     * )
+     */
     private string $full_name;
+
+    /**
+     * @ORM\Column(
+     *     name="email",
+     *     type="string",
+     *     length=128,
+     *     unique=true,
+     *     nullable=false,
+     *     options={"comment":"E-mail do usuário"}
+     * )
+     */
     private string $email;
+
+    /**
+     * @ORM\Column(
+     *     name="password",
+     *     type="string",
+     *     length=72,
+     *     nullable=false,
+     *     options={"comment":"Senha do usuário em Hash Bcrypt"}
+     * )
+     */
     private string $password;
 
     public function getFullName(): ?string
