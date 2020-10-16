@@ -70,4 +70,9 @@ class _DefaultEntity
         $this->updated_at = $date_time;
         return $this;
     }
+
+    public function getCreatedBy(): ?User
+    {
+        return null;
+    }
 }

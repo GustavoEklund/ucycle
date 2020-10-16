@@ -126,4 +126,9 @@ class _DefaultEntityTest extends TestCase
         // Act, Assert
         $this->sut->setUpdatedAt(new DateTime('2020-01-01'));
     }
+
+    public function test_get_null_created_by_when_not_defined(): void
+    {
+        self::assertNull($this->sut->getCreatedBy());
+    }
 }
