@@ -18,6 +18,7 @@ class _DefaultEntity
     private DateTime $created_at;
     private DateTime $updated_at;
     private User $created_by;
+    private User $updated_by;
 
     public function __construct()
     {
@@ -85,6 +86,12 @@ class _DefaultEntity
 
     public function getUpdatedBy(): ?User
     {
-        return null;
+        return $this->updated_by ?? null;
+    }
+
+    public function setUpdatedBy(User $user): _DefaultEntity
+    {
+        $this->updated_by = $user;
+        return $this;
     }
 }

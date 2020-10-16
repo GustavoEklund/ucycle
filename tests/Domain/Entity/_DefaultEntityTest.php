@@ -150,4 +150,17 @@ class _DefaultEntityTest extends TestCase
     {
         self::assertNull($this->sut->getUpdatedBy());
     }
+
+    public function test_can_set_updated_by(): void
+    {
+        // Arrange
+        /** @var User $user */
+        $user = $this->createMock(User::class);
+
+        // Act
+        $this->sut->setUpdatedBy($user);
+
+        // Assert
+        self::assertInstanceOf(User::class, $this->sut->getUpdatedBy());
+    }
 }
