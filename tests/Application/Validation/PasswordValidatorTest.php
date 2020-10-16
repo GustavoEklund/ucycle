@@ -37,4 +37,13 @@ class PasswordValidatorTest extends TestCase
         // Act, Assert
         self::assertTrue(password_verify($password, $this->sut->parse($password)));
     }
+
+    public function test_assert_validator_hashes_password_before_returning(): void
+    {
+        // Arrange
+        $password = '123456';
+
+        // Act, Assert
+        self::assertTrue(password_verify($password, $this->sut->validate($password)));
+    }
 }
