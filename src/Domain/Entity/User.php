@@ -4,8 +4,7 @@ namespace Domain\Entity;
 
 use Application\Validation\EmailValidator;
 use Application\Validation\FullNameValidator;
-use RangeException;
-use RuntimeException;
+use Application\Validation\PasswordValidator;
 
 /**
  * Class User
@@ -46,19 +45,8 @@ class User extends _DefaultEntity
 
     public function setPassword(string $password): User
     {
-        if (strlen($password) < 6) {
-            throw new RangeException('A senha deve ter pelo menos 6 caracteres.');
-        } // if
-
-        $password_hash = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
-
-        if ($password_hash === false || !password_verify($password, (string)$password_hash)) {
-            // Exception not testable
-            throw new RuntimeException('Erro ao processar a senha.');
-        } // if
-
         /** @var string $password_hash */
-        $this->password = $password_hash;
+        $this->password = (new PasswordValidator)->validate($password);
         return $this;
     }
 }
