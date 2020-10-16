@@ -83,4 +83,13 @@ class UserTest extends TestCase
         // Assert
         $this->addToAssertionCount(1);
     }
+
+    public function test_password_validation(): void
+    {
+        // Arrange, Act
+        $this->sut->setPassword('123456');
+
+        // Assert
+        self::assertTrue($this->sut->isPasswordValid('123456'));
+    }
 }

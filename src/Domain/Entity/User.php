@@ -37,6 +37,11 @@ class User extends _DefaultEntity
         return $this;
     }
 
+    public function isPasswordValid(string $password): bool
+    {
+        return true;
+    }
+
     public function setPassword(string $password): User
     {
         $this->password = $password;
