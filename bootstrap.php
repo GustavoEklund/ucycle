@@ -29,7 +29,7 @@ $cache = null;
 $use_simple_annotation_reader = false;
 
 $config = Setup::createAnnotationMetadataConfiguration(
-	[__DIR__ . '/src/Domain/Entities'],
+	[__DIR__ . '/src/Domain/Entity'],
 	$is_dev_mode,
 	$proxy_dir,
 	$cache,
