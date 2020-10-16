@@ -39,12 +39,15 @@ class User extends _DefaultEntity
 
     public function isPasswordValid(string $password): bool
     {
-        return true;
+        return password_verify($password, $this->password);
     }
 
     public function setPassword(string $password): User
     {
-        $this->password = $password;
+        $password_hash = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
+
+        /** @var string $password_hash */
+        $this->password = $password_hash;
         return $this;
     }
 }
