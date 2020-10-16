@@ -5,6 +5,7 @@ namespace Tests\Domain\Entity;
 use Domain\Entity\User;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use RangeException;
 
 /**
  * Class UserTest
@@ -83,6 +84,15 @@ class UserTest extends TestCase
         // Assert
         $this->addToAssertionCount(1);
     }
+
+    public function test_set_password_size_less_than_6_throw_error(): void
+    {
+        // Assert
+        $this->expectException(RangeException::class);
+
+        // Arrange, Act
+        $this->sut->setPassword('12345');
+    } // test_set_password_size_less_than_6_throw_error
 
     public function test_password_validation(): void
     {
