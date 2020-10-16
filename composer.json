@@ -25,5 +25,11 @@
             "Infrastructure\\": "./src/Infrastructure",
             "Tests\\": "./tests/"
         }
+    },
+    "scripts": {
+        "test:coverage": "phpunit --whitelist ./src --coverage-html ./tests/_reports",
+        "diff-db": "doctrine-migrations diff",
+        "migrate-db": "doctrine-migrations migrate",
+        "validate-db": "doctrine orm:validate-schema"
     }
 }
