@@ -3,6 +3,7 @@
 namespace Tests\Domain\Entity;
 
 use DateTime;
+use Domain\Entity\User;
 use RangeException;
 use Domain\Entity\_DefaultEntity;
 use PHPUnit\Framework\TestCase;
@@ -130,5 +131,18 @@ class _DefaultEntityTest extends TestCase
     public function test_get_null_created_by_when_not_defined(): void
     {
         self::assertNull($this->sut->getCreatedBy());
+    }
+
+    public function test_can_set_created_by(): void
+    {
+        // Arrange
+        /** @var User $user */
+        $user = $this->createMock(User::class);
+
+        // Act
+        $this->sut->setCreatedBy($user);
+
+        // Assert
+        self::assertInstanceOf(User::class, $this->sut->getCreatedBy());
     }
 }

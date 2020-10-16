@@ -17,6 +17,7 @@ class _DefaultEntity
     private bool $active;
     private DateTime $created_at;
     private DateTime $updated_at;
+    private User $created_by;
 
     public function __construct()
     {
@@ -73,6 +74,12 @@ class _DefaultEntity
 
     public function getCreatedBy(): ?User
     {
-        return null;
+        return $this->created_by ?? null;
+    }
+
+    public function setCreatedBy(User $user): _DefaultEntity
+    {
+        $this->created_by = $user;
+        return $this;
     }
 }
