@@ -145,4 +145,9 @@ class _DefaultEntityTest extends TestCase
         // Assert
         self::assertInstanceOf(User::class, $this->sut->getCreatedBy());
     }
+
+    public function test_get_null_updated_by_when_not_defined(): void
+    {
+        self::assertNull($this->sut->getUpdatedBy());
+    }
 }

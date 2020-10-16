@@ -82,4 +82,9 @@ class _DefaultEntity
         $this->created_by = $user;
         return $this;
     }
+
+    public function getUpdatedBy(): ?User
+    {
+        return null;
+    }
 }
