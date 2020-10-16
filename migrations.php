@@ -10,8 +10,8 @@ return [
 	],
 
 	'migrations_paths' => [
-		'Migrations' => './src/Infrastructure/Doctrine/Migration',
-		'Component\Migrations' => './src/Infrastructure/Doctrine/Migration'
+		'Migrations' => './src/Infrastructure/Doctrine/Migrations',
+		'Component\Migrations' => './src/Infrastructure/Doctrine/Migrations'
 	],
 
 	'all_or_nothing' => true,
