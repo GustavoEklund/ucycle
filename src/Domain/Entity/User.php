@@ -2,9 +2,11 @@
 
 namespace Domain\Entity;
 
-use Application\Validation\EmailValidator;
-use Application\Validation\FullNameValidator;
-use Application\Validation\PasswordValidator;
+use Application\Validation\{
+    EmailValidator,
+    FullNameValidator,
+    PasswordValidator,
+};
 use Doctrine\ORM\Mapping as ORM;
 
 /**
