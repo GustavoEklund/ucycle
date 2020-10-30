@@ -30,5 +30,9 @@ class CreateUser extends UseCase
         if ($user->getCreatedBy() === null) {
             throw new RequiredValueException('Criado por', 500);
         }
+
+        if ($user->getUpdatedBy() === null) {
+            throw new RequiredValueException('Atualizado por', 500);
+        }
     }
 }
