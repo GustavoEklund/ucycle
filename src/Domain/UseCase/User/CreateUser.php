@@ -17,5 +17,9 @@ class CreateUser extends UseCase
         if (empty($user->getFullName())) {
             throw new RequiredValueException('Nome completo', 500);
         }
+
+        if (empty($user->getEmail())) {
+            throw new RequiredValueException('Email', 500);
+        }
     }
 }
