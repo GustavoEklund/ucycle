@@ -19,10 +19,12 @@ class PasswordValidator
 
         $password_hash = $this->parse($password);
 
+        // @codeCoverageIgnoreStart
         if ($password_hash === false || !password_verify($password, $password_hash)) {
             // Exception not testable
             throw new RuntimeException('Erro ao processar a senha.');
-        } // if
+        }
+        // @codeCoverageIgnoreEnd
 
         return $password_hash;
     }
