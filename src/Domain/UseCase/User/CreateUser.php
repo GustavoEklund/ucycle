@@ -5,6 +5,7 @@ namespace Domain\UseCase\User;
 use Domain\Entity\User;
 use Domain\Exception\RequiredValueException;
 use Domain\UseCase\UseCase;
+use InvalidArgumentException;
 
 /**
  * Class CreateUser
@@ -12,7 +13,7 @@ use Domain\UseCase\UseCase;
  */
 class CreateUser extends UseCase
 {
-    public function execute(User $user): void
+    public function execute(User $user, string $password): void
     {
         if (empty($user->getFullName())) {
             throw new RequiredValueException('Nome completo', 500);
@@ -20,6 +21,10 @@ class CreateUser extends UseCase
 
         if (empty($user->getEmail())) {
             throw new RequiredValueException('Email', 500);
+        }
+
+        if (!$user->isPasswordValid($password)) {
+            throw new InvalidArgumentException('Senha inválida.', 500);
         }
     }
 }
