@@ -66,4 +66,21 @@ class CreateUserTest extends TestCase
         // Act, Assert
         $this->sut->execute($user, 'any_password');
     }
+
+    public function test_assert_given_user_without_created_by_throws_exception(): void
+    {
+        // Arrange
+        $this->expectException(RequiredValueException::class);
+        $this->expectExceptionMessage('Criado por não informado.');
+        $this->expectExceptionCode(500);
+
+        $user = $this->createMock(User::class);
+        $user->method('getFullName')->willReturn('Any Full Name');
+        $user->method('getEmail')->willReturn('any_email@example.com');
+        $user->method('isPasswordValid')->willReturn(true);
+        $user->method('getCreatedBy')->willReturn(null);
+
+        // Act, Assert
+        $this->sut->execute($user, 'any_password');
+    }
 }

@@ -26,5 +26,9 @@ class CreateUser extends UseCase
         if (!$user->isPasswordValid($password)) {
             throw new InvalidArgumentException('Senha inválida.', 500);
         }
+
+        if ($user->getCreatedBy() === null) {
+            throw new RequiredValueException('Criado por', 500);
+        }
     }
 }
