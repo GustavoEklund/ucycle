@@ -2,8 +2,10 @@
 
 namespace Domain\UseCase\User;
 
+use Doctrine\ORM\ORMException;
 use Domain\Entity\User;
 use Domain\Exception\RequiredValueException;
+use Domain\Repository\UserRepository;
 use Domain\UseCase\UseCase;
 use InvalidArgumentException;
 
@@ -13,6 +15,11 @@ use InvalidArgumentException;
  */
 class CreateUser extends UseCase
 {
+    /**
+     * @param User $user
+     * @param string $password
+     * @throws ORMException
+     */
     public function execute(User $user, string $password): void
     {
         if (empty($user->getFullName())) {
@@ -34,5 +41,12 @@ class CreateUser extends UseCase
         if ($user->getUpdatedBy() === null) {
             throw new RequiredValueException('Atualizado por', 500);
         }
+
+        /** @var UserRepository $user_repository */
+        $user_repository = $this
+            ->getEntityManager()
+            ->getRepository(User::class);
+
+        $user_repository->create($user);
     }
 }
