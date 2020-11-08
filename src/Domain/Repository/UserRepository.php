@@ -3,6 +3,7 @@
 namespace Domain\Repository;
 
 use DateTime;
+use Doctrine\ORM\EntityManager;
 use Domain\Entity\User;
 use Doctrine\ORM\ORMException;
 use Domain\Repository\Interfaces\UserRepositoryInterface;
@@ -13,6 +14,12 @@ use Domain\Repository\Interfaces\UserRepositoryInterface;
  */
 class UserRepository extends Repository implements UserRepositoryInterface
 {
+    public function __construct(EntityManager $entity_manager)
+    {
+        parent::__construct($entity_manager);
+        $this->setClassName(User::class);
+    }
+
     /**
      * @param User $user
      * @throws ORMException

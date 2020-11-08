@@ -23,6 +23,11 @@ class UserRepositoryTest extends TestCase
         $this->sut = new UserRepository($entity_manager);
     }
 
+    public function test_assert_stats_with_User_class_name_set(): void
+    {
+        self::assertEquals(User::class, $this->sut->getClassName());
+    }
+    
     /** @throws ORMException */
     public function test_assert_create(): void
     {
