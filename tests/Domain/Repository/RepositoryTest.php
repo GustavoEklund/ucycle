@@ -46,4 +46,18 @@ class RepositoryTest extends TestCase
 
         self::assertEquals(__CLASS__, $this->sut->getClassName());
     }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function test_assert_setClassName_calls_setClassAlias(): void
+    {
+        $reflection = new ReflectionClass(get_class($this->sut));
+        $method = $reflection->getMethod('setClassName');
+        $method->setAccessible(true);
+        $method->invokeArgs($this->sut, [__CLASS__]);
+
+        self::assertEquals('r', $this->sut->getClassAlias());
+    }
+
 }
