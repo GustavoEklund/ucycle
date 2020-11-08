@@ -77,4 +77,10 @@ class RepositoryTest extends TestCase
             $this->sut->getHydrationMode()
         );
     }
+
+    public function test_assert_get_self_class_alias_if_not_defined(): void
+    {
+        self::assertEquals('r', $this->sut->getClassAlias());
+    }
+
 }
