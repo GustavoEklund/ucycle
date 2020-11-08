@@ -83,4 +83,21 @@ class RepositoryTest extends TestCase
         self::assertEquals('r', $this->sut->getClassAlias());
     }
 
+    /**
+     * @throws ReflectionException
+     */
+    public function test_assert_can_set_class_alias_and_turns_to_lowercase(): void
+    {
+        $reflection = new ReflectionClass(get_class($this->sut));
+
+        $method = $reflection->getMethod('setClassName');
+        $method->setAccessible(true);
+        $method->invokeArgs($this->sut, [__CLASS__]);
+
+        $set_class_alias = $reflection->getMethod('setClassAlias');
+        $set_class_alias->setAccessible(true);
+        $set_class_alias->invokeArgs($this->sut, [__CLASS__]);
+
+        self::assertEquals('r', $this->sut->getClassAlias());
+    }
 }
