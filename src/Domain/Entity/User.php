@@ -13,8 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  * Class User
  * @package Domain\Entity
  *
- * @ORM\Entity(Domain\Repository\UserRepository)
- * @ORM\Table(name="user")
+ * @ORM\Entity(repositoryClass="Domain\Repository\UserRepository")
+ * @ORM\Table(name="users")
  */
 class User extends _DefaultEntity
 {
