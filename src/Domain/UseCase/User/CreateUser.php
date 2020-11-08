@@ -8,6 +8,7 @@ use Domain\Exception\RequiredValueException;
 use Domain\Repository\UserRepository;
 use Domain\UseCase\UseCase;
 use InvalidArgumentException;
+use RuntimeException;
 
 /**
  * Class CreateUser
@@ -46,6 +47,10 @@ class CreateUser extends UseCase
         $user_repository = $this
             ->getEntityManager()
             ->getRepository(User::class);
+
+        if (!empty($user_repository->findBy(['email' => $user->getEmail()]))) {
+            throw new RuntimeException('Este email já está sendo usado.', 401);
+        }
 
         $user_repository->create($user);
     }
