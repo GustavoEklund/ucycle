@@ -5,6 +5,8 @@ namespace Tests\Domain\Repository;
 use Doctrine\ORM\EntityManager;
 use Domain\Repository\Repository;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use ReflectionException;
 
 /**
  * Class RepositoryTest
@@ -30,5 +32,18 @@ class RepositoryTest extends TestCase
     public function test_assert_get_self_class_name_if_not_defined(): void
     {
         self::assertEquals(Repository::class, $this->sut->getClassName());
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function test_can_set_class_name(): void
+    {
+        $reflection = new ReflectionClass(get_class($this->sut));
+        $method = $reflection->getMethod('setClassName');
+        $method->setAccessible(true);
+        $method->invokeArgs($this->sut, [__CLASS__]);
+
+        self::assertEquals(__CLASS__, $this->sut->getClassName());
     }
 }
