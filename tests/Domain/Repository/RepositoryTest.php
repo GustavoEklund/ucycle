@@ -2,6 +2,7 @@
 
 namespace Tests\Domain\Repository;
 
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
 use Domain\Repository\Repository;
 use PHPUnit\Framework\TestCase;
@@ -60,4 +61,8 @@ class RepositoryTest extends TestCase
         self::assertEquals('r', $this->sut->getClassAlias());
     }
 
+    public function test_assert_get_hydration_array_mode_as_default(): void
+    {
+        self::assertEquals(AbstractQuery::HYDRATE_ARRAY, $this->sut->getHydrationMode());
+    }
 }

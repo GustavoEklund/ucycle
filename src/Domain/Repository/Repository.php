@@ -2,6 +2,7 @@
 
 namespace Domain\Repository;
 
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -13,10 +14,12 @@ class Repository
     private EntityManager $entity_manager;
     private string $class_name;
     private string $class_alias;
+    private int $hydration_mode;
 
     public function __construct(EntityManager $entity_manager)
     {
         $this->entity_manager = $entity_manager;
+        $this->hydration_mode = AbstractQuery::HYDRATE_ARRAY;
         $this->setClassName(self::class);
     }
 
@@ -47,5 +50,10 @@ class Repository
         $class_name_array = explode('\\', $this->class_name);
         $this->class_alias = strtolower(end($class_name_array)[0]);
         return $this;
+    }
+
+    public function getHydrationMode(): ?int
+    {
+        return $this->hydration_mode;
     }
 }
