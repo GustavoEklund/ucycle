@@ -56,4 +56,10 @@ class Repository
     {
         return $this->hydration_mode;
     }
+
+    public function setHydrationMode(int $hydration_mode): Repository
+    {
+        $this->hydration_mode = $hydration_mode;
+        return $this;
+    }
 }

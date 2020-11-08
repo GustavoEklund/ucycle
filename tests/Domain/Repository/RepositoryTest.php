@@ -65,4 +65,16 @@ class RepositoryTest extends TestCase
     {
         self::assertEquals(AbstractQuery::HYDRATE_ARRAY, $this->sut->getHydrationMode());
     }
+
+    public function test_can_set_hydration_mode(): void
+    {
+        // Arrange, Act
+        $this->sut->setHydrationMode(AbstractQuery::HYDRATE_OBJECT);
+
+        // Assert
+        self::assertEquals(
+            AbstractQuery::HYDRATE_OBJECT,
+            $this->sut->getHydrationMode()
+        );
+    }
 }
