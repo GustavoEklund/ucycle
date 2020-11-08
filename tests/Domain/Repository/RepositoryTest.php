@@ -26,4 +26,9 @@ class RepositoryTest extends TestCase
     {
         self::assertNotNull($this->sut->getEntityManager());
     }
+
+    public function test_assert_get_self_class_name_if_not_defined(): void
+    {
+        self::assertEquals(Repository::class, $this->sut->getClassName());
+    }
 }

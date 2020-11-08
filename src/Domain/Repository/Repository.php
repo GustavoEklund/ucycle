@@ -21,4 +21,9 @@ class Repository
     {
         return $this->entity_manager;
     }
+
+    public function getClassName(): string
+    {
+        return self::class;
+    }
 }
