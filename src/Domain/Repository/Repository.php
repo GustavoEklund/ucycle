@@ -62,4 +62,29 @@ class Repository
         $this->hydration_mode = $hydration_mode;
         return $this;
     }
+
+    public function findBy(array $criteria, array $order_by = [], int $limit = null, int $offset = null)
+    {
+        $query_builder = $this
+            ->getEntityManager()
+            ->createQueryBuilder()
+            ->select($this->class_alias)
+            ->from($this->class_name, $this->class_alias)
+            ->setFirstResult($offset)
+            ->setMaxResults($limit);
+
+        foreach ($criteria as $key => $value) {
+            $query_builder
+                ->andWhere("{$this->class_alias}.{$key} = :{$key}")
+                ->setParameter($key, $value);
+        }
+
+        foreach ($order_by as $key => $value) {
+            $query_builder->addOrderBy("{$this->class_alias}.{$key}", $value);
+        }
+
+        $query = $query_builder->getQuery();
+
+        return $query->getResult($this->hydration_mode);
+    }
 }

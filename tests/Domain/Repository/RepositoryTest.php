@@ -4,6 +4,7 @@ namespace Tests\Domain\Repository;
 
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
 use Domain\Repository\Repository;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
@@ -13,16 +14,16 @@ use ReflectionException;
  * Class RepositoryTest
  * @package Tests\Domain\Repository
  */
-class RepositoryTest extends TestCase
+final class RepositoryTest extends TestCase
 {
-    protected Repository $sut;
+    private Repository $sut;
+    private EntityManager $entity_manager;
 
     public function setUp(): void
     {
-        $entity_manager = $this->createMock(EntityManager::class);
+        $this->entity_manager = $this->createMock(EntityManager::class);
 
-        /** @var EntityManager $entity_manager */
-        $this->sut = new Repository($entity_manager);
+        $this->sut = new Repository($this->entity_manager);
     }
 
     public function test_assert_repository_starts_with_entity_manager_set(): void
@@ -99,5 +100,71 @@ class RepositoryTest extends TestCase
         $set_class_alias->invokeArgs($this->sut, [__CLASS__]);
 
         self::assertEquals('r', $this->sut->getClassAlias());
+    }
+
+    public function test_assert_findBy_returns_empty_array_if_not_found(): void
+    {
+        // Arrange
+        $query_builder = $this->createMock(QueryBuilder::class);
+        $query_builder
+            ->expects(self::once())
+            ->method('select')
+            ->with(...[$this->sut->getClassAlias()])
+            ->willReturn($query_builder);
+        $query_builder
+            ->expects(self::once())
+            ->method('from')
+            ->with(...[$this->sut->getClassName(), $this->sut->getClassAlias()])
+            ->willReturn($query_builder);
+        $query_builder
+            ->expects(self::once())
+            ->method('setFirstResult')
+            ->with(...[null])
+            ->willReturn($query_builder);
+        $query_builder
+            ->expects(self::once())
+            ->method('setMaxResults')
+            ->with(...[null])
+            ->willReturn($query_builder);
+        $query_builder
+            ->expects(self::once())
+            ->method('andWhere')
+            ->with(...['r.test = :test'])
+            ->willReturn($query_builder);
+        $query_builder
+            ->expects(self::once())
+            ->method('setParameter')
+            ->with(...['test', 'test'])
+            ->willReturn($query_builder);
+        $query_builder
+            ->expects(self::once())
+            ->method('addOrderBy')
+            ->with(...['r.test', 'DESC'])
+            ->willReturn($query_builder);
+        $abstract_query = $this
+            ->getMockBuilder(AbstractQuery::class)
+            ->onlyMethods(['getResult'])
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $abstract_query
+            ->expects(self::once())
+            ->method('getResult')
+            ->with(...[AbstractQuery::HYDRATE_ARRAY])
+            ->willReturn([]);
+        $query_builder
+            ->expects(self::once())
+            ->method('getQuery')
+            ->with(...[])
+            ->willReturn($abstract_query);
+
+        $this
+            ->entity_manager
+            ->expects(self::once())
+            ->method('createQueryBuilder')
+            ->with(...[])
+            ->willReturn($query_builder);
+
+        // Act, Assert
+        $this->sut->findBy(['test' => 'test'], ['test' => 'DESC']);
     }
 }
