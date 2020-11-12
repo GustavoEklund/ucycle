@@ -1,0 +1,17 @@
+RewriteEngine On
+
+<IfModule mod_headers.c>
+	SetEnvIf Origin "http(s)?://(www\.)?(localhost)(:3000)?$" AccessControlAllowOrigin=$0
+	Header add Access-Control-Allow-Origin %{AccessControlAllowOrigin}e env=AccessControlAllowOrigin
+	Header merge Vary Origin
+</IfModule>
+
+Header always set Access-Control-Allow-Methods "POST, GET, OPTIONS, DELETE, PUT, PATCH"
+Header always set Access-Control-Allow-Headers "Authorization, Content-Type, Content-Language, Content-Encoding, Content-Location, Host, Referer, User-Agent"
+Header always set Content-Type "application/json"
+
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ $1 [R=200,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L] [R=200,L]
