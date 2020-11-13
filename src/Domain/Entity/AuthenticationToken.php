@@ -92,11 +92,8 @@ class AuthenticationToken extends _DefaultEntity
         );
 
         $now = (new DateTime('now'))->getTimestamp();
-
         $this->setIat($now);
-
         $this->setExp($now + (20 * 60));
-
         $this->setNbf($now);
     }
 
