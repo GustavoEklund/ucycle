@@ -4,6 +4,7 @@ namespace Tests\Domain\UseCase\AuthenticationToken;
 
 use Doctrine\ORM\EntityManager;
 use Domain\Entity\AuthenticationToken;
+use Domain\Entity\User;
 use Domain\Exception\RequiredValueException;
 use Domain\UseCase\AuthenticationToken\CreateAuthenticationToken;
 use PHPUnit\Framework\TestCase;
@@ -32,6 +33,21 @@ class CreateAuthenticationTokenTest extends TestCase
 
         $auth_token = new AuthenticationToken;
 
+        // Act, Assert
+        $this->sut->execute($auth_token);
+    }
+
+    public function test_assert_given_auth_token_without_created_by_throws_exception(): void
+    {
+        // Arrange
+        $this->expectException(RequiredValueException::class);
+        $this->expectExceptionMessage('Criado por');
+        $this->expectExceptionCode(500);
+
+        $auth_token = (new AuthenticationToken)
+            ->setSub(new User);
+
+        // Act, Assert
         $this->sut->execute($auth_token);
     }
 }

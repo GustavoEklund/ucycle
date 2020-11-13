@@ -17,5 +17,9 @@ class CreateAuthenticationToken extends UseCase
         if ($auth_token->getSub() === null) {
             throw new RequiredValueException('Sujeito', 500);
         }
+
+        if ($auth_token->getCreatedBy() === null) {
+            throw new RequiredValueException('Criado por', 500);
+        }
     }
 }
