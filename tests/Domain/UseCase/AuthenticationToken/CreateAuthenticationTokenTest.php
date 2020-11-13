@@ -50,4 +50,21 @@ class CreateAuthenticationTokenTest extends TestCase
         // Act, Assert
         $this->sut->execute($auth_token);
     }
+
+    public function test_assert_given_auth_token_without_updated_by_throws_exception(): void
+    {
+        // Arrange
+        $this->expectException(RequiredValueException::class);
+        $this->expectExceptionMessage('Atualizado por');
+        $this->expectExceptionCode(500);
+
+        $user = new User;
+
+        $auth_token = (new AuthenticationToken)
+            ->setSub($user)
+            ->setCreatedBy($user);
+
+        // Act, Assert
+        $this->sut->execute($auth_token);
+    }
 }

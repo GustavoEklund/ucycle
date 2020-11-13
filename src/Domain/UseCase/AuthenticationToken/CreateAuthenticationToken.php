@@ -21,5 +21,9 @@ class CreateAuthenticationToken extends UseCase
         if ($auth_token->getCreatedBy() === null) {
             throw new RequiredValueException('Criado por', 500);
         }
+
+        if ($auth_token->getUpdatedBy() === null) {
+            throw new RequiredValueException('Atualizado por', 500);
+        }
     }
 }
