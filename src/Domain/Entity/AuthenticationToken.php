@@ -11,7 +11,7 @@ use RangeException;
  * Class AuthenticationToken
  * @package Domain\Entity
  *
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Domain\Repository\AuthenticationTokenRepository")
  * @ORM\Table(name="authentication_tokens")
  */
 class AuthenticationToken extends _DefaultEntity
