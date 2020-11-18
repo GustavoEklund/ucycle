@@ -35,4 +35,15 @@ class AuthenticationTokenRepository extends Repository implements Interfaces\Aut
                     ->setUpdatedAt($now)
             );
     }
+
+    /**
+     * @param AuthenticationToken $auth_token
+     * @throws ORMException
+     */
+    public function remove(AuthenticationToken $auth_token): void
+    {
+        $this
+            ->getEntityManager()
+            ->remove($auth_token);
+    }
 }

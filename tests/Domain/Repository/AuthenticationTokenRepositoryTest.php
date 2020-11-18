@@ -47,4 +47,18 @@ class AuthenticationTokenRepositoryTest extends TestCase
 
         $this->sut->create($auth_token);
     }
+
+    /** @throws ORMException  */
+    public function test_assert_remove_calls_remove_with_correct_params(): void
+    {
+        $auth_token = new AuthenticationToken;
+
+        $this
+            ->entity_manager
+            ->expects(self::once())
+            ->method('remove')
+            ->with($auth_token);
+
+        $this->sut->remove($auth_token);
+    }
 }
