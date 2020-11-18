@@ -42,4 +42,16 @@ class FindUserByTest extends TestCase
 
         $this->sut->execute(['email' => 'any_email@example.com']);
     }
+
+    public function test_assert_get_empty_array_if_no_users_found(): void
+    {
+        $this
+            ->user_repository
+            ->expects(self::once())
+            ->method('findBy')
+            ->with(...[['email' => 'any_email@example.com'], [], null, null])
+            ->willReturn([]);
+
+        self::assertEmpty($this->sut->execute(['email' => 'any_email@example.com']));
+    }
 }
