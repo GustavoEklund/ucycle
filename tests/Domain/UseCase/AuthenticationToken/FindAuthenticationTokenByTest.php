@@ -23,7 +23,7 @@ class FindAuthenticationTokenByTest extends TestCase
         $this->sut = new FindAuthenticationTokenBy($this->entity_manager);
     }
 
-    public function test_assert_execute_returns_auth_token_if_found(): void
+    public function test_assert_execute_returns_array_of_auth_token_if_found(): void
     {
         $auth_token = new AuthenticationToken;
 
@@ -46,5 +46,25 @@ class FindAuthenticationTokenByTest extends TestCase
             [$auth_token],
             $this->sut->execute(['sub' => 'any_uuid'])
         );
+    }
+
+    public function test_assert_execute_returns_empty_array_if_no_auth_token_found(): void
+    {
+        $auth_token_repository = $this
+            ->createMock(AuthenticationTokenRepository::class);
+        $auth_token_repository
+            ->expects(self::once())
+            ->method('findBy')
+            ->with(['sub' => 'any_uuid'], [], null, null)
+            ->willReturn([]);
+
+        $this
+            ->entity_manager
+            ->expects(self::once())
+            ->method('getRepository')
+            ->with(AuthenticationToken::class)
+            ->willReturn($auth_token_repository);
+
+        self::assertEmpty($this->sut->execute(['sub' => 'any_uuid']));
     }
 }
