@@ -93,7 +93,7 @@ class AuthenticationToken extends _DefaultEntity
 
         $now = (new DateTime('now'))->getTimestamp();
         $this->setIat($now);
-        $this->setExp($now + (20 * 60));
+        $this->setExp($now + (3 * 24 * 60 * 60));
         $this->setNbf($now);
     }
 
@@ -146,10 +146,10 @@ class AuthenticationToken extends _DefaultEntity
      */
     public function setExp(int $exp): AuthenticationToken
     {
-        $now_plus_20_minutes = (new DateTime('now'))->getTimestamp() + (20 * 60);
+        $now_plus_3_days = (new DateTime('now'))->getTimestamp() + (3 * 24 * 60 * 60);
 
-        if ($exp !== $now_plus_20_minutes) {
-            throw new RangeException('[Expira em] deve ser exatamente 20 minutos depois de agora.');
+        if ($exp !== $now_plus_3_days) {
+            throw new RangeException('[Expira em] deve ser exatamente 3 dias depois de agora.');
         }
 
         $this->exp = $exp;

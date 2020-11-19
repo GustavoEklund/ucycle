@@ -106,7 +106,7 @@ class AuthenticationTokenTest extends TestCase
     public function test_assert_token_starts_with_expire_at_set(): void
     {
         // Arrange
-        $now_plus_20_minutes = (new DateTime('now'))->getTimestamp() + (20 * 60);
+        $now_plus_20_minutes = (new DateTime('now'))->getTimestamp() + (3 * 24 * 60 * 60);
 
         // Act, Assert
         self::assertEquals($now_plus_20_minutes, $this->sut->getExp());
