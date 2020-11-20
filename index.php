@@ -16,8 +16,12 @@ $expr_builder = (new ExprBuilder())
 
 $router = new Router($expr_builder);
 
+$authorize = 'AuthenticationController@authorize';
+
 try {
     $router->post('/authentication/register', 'AuthenticationController@register');
+    $router->post('/authentication/login', 'AuthenticationController@login');
+    $router->post('/authentication/confirm-email', $authorize, 'AuthenticationController@confirm');
 } catch (JsonException $json_exception) {
     echo '{"error":{"code":500,"message":"' . $json_exception->getMessage() . '"},"data":null}';
 }
