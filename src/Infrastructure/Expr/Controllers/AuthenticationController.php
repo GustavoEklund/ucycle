@@ -2,14 +2,20 @@
 
 namespace Infrastructure\Expr\Controllers;
 
+use Application\Authentication;
+use Application\Factory\TokenFactory;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
+use Domain\Entity\AuthenticationToken;
 use Domain\Entity\User;
 use Domain\UseCase\User\CreateUser;
+use Domain\UseCase\User\FindUserBy;
+use Exception;
 use Expr\Controller;
 use Expr\Request;
 use Expr\Response;
 use JsonException;
+use RuntimeException;
 
 /**
  * Class AuthenticationController
@@ -43,5 +49,55 @@ class AuthenticationController extends Controller
         $entity_manager->flush();
 
         return $response->status(200)->send('Usuário criado com sucesso.');
+    }
+
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param EntityManager $entity_manager
+     * @return string
+     * @throws Exception
+     */
+    public function login(Request $request, Response $response, EntityManager $entity_manager): string
+    {
+        $body = $request->getBody();
+
+        $user_list = (new FindUserBy($entity_manager))
+            ->execute(['email' => @$body['email']], [], 1);
+
+        if (empty($user_list) || !$user_list[0]->isPasswordValid(@$body['password'])) {
+            throw new RuntimeException('Usuário ou senha incorretos.', 404);
+        }
+
+        $auth_token = (new AuthenticationToken)
+            ->setSub($user_list[0])
+            ->setCreatedBy($user_list[0])
+            ->setUpdatedBy($user_list[0]);
+
+        $token = TokenFactory::create($auth_token, $entity_manager);
+
+        return $response->status(201)->send($token);
+    }
+
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param EntityManager $entity_manager
+     * @return AuthenticationToken
+     */
+    public function authorize(Request $request, Response $response, EntityManager $entity_manager): AuthenticationToken
+    {
+        $headers = apache_request_headers();
+
+        if (!$headers || empty($headers)) {
+            throw new RuntimeException('Os cabeçalhos de requisição não estão presentes.', 403);
+        }
+
+        if (empty($headers['Authorization'])) {
+            throw new RuntimeException('Usuário não autenticado.', 401);
+        }
+
+        return (new Authentication(new AuthenticationToken))
+            ->validateToken($headers['Authorization'], $entity_manager);
     }
 }
