@@ -3,6 +3,7 @@
 namespace Domain\Repository;
 
 use DateTime;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use Domain\Entity\AuthenticationToken;
@@ -17,6 +18,7 @@ class AuthenticationTokenRepository extends Repository implements Interfaces\Aut
     {
         parent::__construct($entity_manager);
         $this->setClassName(AuthenticationToken::class);
+        $this->setHydrationMode(AbstractQuery::HYDRATE_OBJECT);
     }
 
     /**
