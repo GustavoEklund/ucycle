@@ -3,6 +3,7 @@
 namespace Domain\Repository;
 
 use DateTime;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
 use Domain\Entity\User;
 use Doctrine\ORM\ORMException;
@@ -18,6 +19,7 @@ class UserRepository extends Repository implements UserRepositoryInterface
     {
         parent::__construct($entity_manager);
         $this->setClassName(User::class);
+        $this->setHydrationMode(AbstractQuery::HYDRATE_OBJECT);
     }
 
     /**
