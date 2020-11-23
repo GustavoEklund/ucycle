@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Confirmação de Email</title>
+        <style>
+            * { text-align: center; color: #333333; font-family: sans-serif; }
+            h1, h2 { margin-bottom: 50px; }
+            p { margin-bottom: 30px; }
+            a { margin-bottom: 50px; }
+        </style>
+    </head>
+    <body>
+    <h2 style="color: #7A81FF">Olá, {{first_name}}!</h2>
+        <p style="font-weight: bold;">Use este código para verificar seu e-mail:</p>
+        <h1>{{verify_code}}</h1>
+        <p>O código expira dentro de 24 horas.</p>
+        <p>
+            Recebemos um pedido de criação de uma conta&nbsp;
+            <strong>uCycle</strong>
+            &nbsp;com o seu endereço de email. Se não efetuou este pedido, por favor, desconsidere este email.
+        </p>
+        <p>
+            Atenciosamente,
+            <br />
+            A Equipe uCycle
+        </p>
+    </body>
+</html>

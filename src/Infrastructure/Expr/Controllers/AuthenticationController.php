@@ -3,6 +3,7 @@
 namespace Infrastructure\Expr\Controllers;
 
 use Application\Authentication;
+use Application\Email\Email;
 use Application\Factory\TokenFactory;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
@@ -45,6 +46,27 @@ class AuthenticationController extends Controller
             ->setUpdatedBy($user);
 
         (new CreateUser($entity_manager))->execute($user, $password);
+
+        $first_name = explode(' ', $user->getFullName())[0];
+        $email_body = file_get_contents(__DIR__.'/../../../Application/Email/Templates/email-confirm.html');
+
+        if (!$email_body) {
+            throw new RuntimeException('Erro ao enviar o email de confirmação.');
+        }
+
+        $email_body = str_replace(
+            ['{{first_name}}', '{{verify_code}}'],
+            [$first_name, $user->getVerifyCode()],
+            $email_body
+        );
+
+        $email = (new Email)
+            ->setSubject('Confirmação de Email')
+            ->setBody($email_body)
+            ->setRecipientName($user->getFullName())
+            ->setRecipientEmail($user->getEmail());
+
+        $email->send();
 
         $entity_manager->flush();
 

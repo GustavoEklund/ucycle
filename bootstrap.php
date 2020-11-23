@@ -2,7 +2,7 @@
 
 require_once(__DIR__.'/vendor/autoload.php');
 
-use Doctrine\{DBAL\DBALException, DBAL\Types\Type, ORM\EntityManager, ORM\ORMException, ORM\Tools\Setup};
+use Doctrine\{DBAL\Types\Type, ORM\EntityManager, ORM\ORMException, ORM\Tools\Setup};
 use Dotenv\Dotenv;
 
 // Variáveis de ambiente
@@ -18,7 +18,13 @@ $dotenv->required([
 	'DB_NAME',
 	'DB_USER',
 	'DB_CHARSET',
-])->notEmpty(); // required
+    'EMAIL_HOST',
+    'EMAIL_USER_NAME',
+    'EMAIL_PASSWORD',
+    'EMAIL_PORT',
+    'EMAIL_FROM_NAME',
+    'EMAIL_FROM_EMAIL',
+])->notEmpty();
 $dotenv->required('DB_PASSWORD');
 $dotenv->required('PRODUCTION_MODE')->isInteger();
 $dotenv->required('PRODUCTION_MODE')->allowedValues(['0', '1']);
@@ -54,7 +60,7 @@ try {
 } catch (ORMException $orm_exception) {
 	echo "{\"error\":\"{$orm_exception->getMessage()}\",\"data\":null}";
 	exit;
-} catch (DBALException $dbal_exception) {
+} catch (\Doctrine\DBAL\Exception $dbal_exception) {
     echo "{\"error\":\"{$dbal_exception->getMessage()}\",\"data\":null}";
     exit;
 }
