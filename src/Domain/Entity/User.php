@@ -6,8 +6,10 @@ use Application\Validation\{
     EmailValidator,
     FullNameValidator,
     PasswordValidator,
+    VerifyCodeValidator,
 };
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 
 /**
  * Class User
@@ -52,6 +54,34 @@ class User extends _DefaultEntity
      */
     private string $password;
 
+    /**
+     * @ORM\Column(
+     *     name="verified",
+     *     type="boolean",
+     *     nullable=false,
+     *     options={"comment":"Usuário verificado."}
+     * )
+     */
+    private bool $verified;
+
+    /**
+     * @ORM\Column(
+     *     name="verify_code",
+     *     type="integer",
+     *     nullable=true,
+     *     options={"comment":"Código de verificação do usuário. Usado para confirmar e-mail e redefinir a senha."}
+     * )
+     */
+    private int $verify_code;
+
+    /** @throws Exception */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->verified = false;
+        $this->verify_code = random_int(100000, 999999);
+    }
+
     public function getFullName(): ?string
     {
         return $this->full_name ?? null;
@@ -83,6 +113,28 @@ class User extends _DefaultEntity
     {
         /** @var string $password_hash */
         $this->password = (new PasswordValidator)->validate($password);
+        return $this;
+    }
+
+    public function getVerified(): bool
+    {
+        return $this->verified;
+    }
+
+    public function setVerified(bool $verified): User
+    {
+        $this->verified = $verified;
+        return $this;
+    }
+
+    public function getVerifyCode(): int
+    {
+        return $this->verify_code;
+    }
+
+    public function setVerifyCode(int $verify_code): User
+    {
+        $this->verify_code = (new VerifyCodeValidator)->validate($verify_code);
         return $this;
     }
 }

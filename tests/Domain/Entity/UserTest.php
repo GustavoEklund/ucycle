@@ -3,6 +3,7 @@
 namespace Tests\Domain\Entity;
 
 use Domain\Entity\User;
+use Exception;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use RangeException;
@@ -110,5 +111,54 @@ class UserTest extends TestCase
 
         // Assert
         self::assertFalse($this->sut->isPasswordValid('123454'));
+    }
+
+    public function test_assert_verified_starts_with_false(): void
+    {
+        self::assertFalse($this->sut->getVerified());
+    }
+
+    public function test_can_set_verified(): void
+    {
+        // Arrange, Act
+        $this->sut->setVerified(true);
+
+        // Assert
+        self::assertTrue($this->sut->getVerified());
+    }
+
+    /** @throws Exception */
+    public function test_assert_verify_code_starts_with_random_number(): void
+    {
+        // Arrange, Act
+        $user1 = new User;
+        $user2 = new User;
+
+        // Assert
+        self::assertNotEquals($user1->getVerifyCode(), $user2->getVerifyCode());
+    }
+
+    /** @throws Exception */
+    public function test_assert_can_set_verify_code(): void
+    {
+        // Arrange
+        $random = random_int(100000, 999999);
+
+        // Act
+        $this->sut->setVerifyCode($random);
+
+        // Assert
+        self::assertEquals($random, $this->sut->getVerifyCode());
+    }
+
+    public function test_assert_set_invalid_verify_code_throws_exception(): void
+    {
+        // Arrange
+        $this->expectException(RangeException::class);
+        $this->expectExceptionMessage('O código de verificação deve ser um número inteiro entre 100000 e 999999.');
+        $this->expectExceptionCode(500);
+
+        // Act, Assert
+        $this->sut->setVerifyCode(1000000);
     }
 }
