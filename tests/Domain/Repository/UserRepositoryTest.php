@@ -2,6 +2,7 @@
 
 namespace Tests\Domain\Repository;
 
+use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use Domain\Entity\User;
@@ -42,6 +43,7 @@ class UserRepositoryTest extends TestCase
      */
     public function test_assert_update_calls_persist_with_correct_params(): void
     {
+        // Arrange
         $user = new User;
 
         $this
@@ -50,6 +52,25 @@ class UserRepositoryTest extends TestCase
             ->method('persist')
             ->with($user);
 
+        // Act, Assert
         $this->sut->update($user);
+    }
+
+    /**
+     * @throws ORMException
+     */
+    public function test_assert_update_set_updated_at_to_now_before_persist(): void
+    {
+        // Arrange
+        $user = (new User)->setUpdatedAt(new DateTime('now + 1 hour'));
+
+        // Act
+        $this->sut->update($user);
+
+        // Assert
+        self::assertEquals(
+            (new DateTime('now'))->getTimestamp(),
+            $user->getUpdatedAt()->getTimestamp()
+        );
     }
 }
