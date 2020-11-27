@@ -3,10 +3,10 @@
 namespace Domain\Repository;
 
 use DateTime;
-use Doctrine\ORM\AbstractQuery;
-use Doctrine\ORM\EntityManager;
 use Domain\Entity\User;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\AbstractQuery;
 use Domain\Repository\Interfaces\UserRepositoryInterface;
 
 /**
@@ -37,5 +37,16 @@ class UserRepository extends Repository implements UserRepositoryInterface
                     ->setCreatedAt($now)
                     ->setUpdatedAt($now)
             );
+    }
+
+    /**
+     * @param User $user
+     * @throws ORMException
+     */
+    public function update(User $user): void
+    {
+        $this
+            ->getEntityManager()
+            ->persist($user->setUpdatedAt(new DateTime('now')));
     }
 }
