@@ -202,7 +202,8 @@ class AuthenticationToken extends _DefaultEntity
             'exp' => $this->getExp(),
             'nbf' => $this->getNbf(),
             'sub' => $this->getSub()->getUuid(),
-            'jti' => $this->getUuid()->toString(),
+            'jti' => $this->getUuid()->toString(), 'verified' => $this->getSub()->getVerified(),
+            'full_name' => $this->getSub()->getFullName(),
         ];
     }
 }
