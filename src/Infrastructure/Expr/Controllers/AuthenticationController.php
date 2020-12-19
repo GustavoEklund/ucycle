@@ -11,6 +11,7 @@ use Domain\Entity\AuthenticationToken;
 use Domain\Entity\User;
 use Domain\UseCase\User\CreateUser;
 use Domain\UseCase\User\FindUserBy;
+use Domain\UseCase\User\UpdateUser;
 use Exception;
 use Expr\Controller;
 use Expr\Request;
@@ -99,6 +100,44 @@ class AuthenticationController extends Controller
         $token = TokenFactory::create($auth_token, $entity_manager);
 
         return $response->status(201)->send($token);
+    }
+
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param EntityManager $entity_manager
+     * @param AuthenticationToken $auth_token
+     * @return string
+     * @throws JsonException|ORMException|Exception
+     */
+    public function verify(
+        Request $request,
+        Response $response,
+        EntityManager $entity_manager,
+        AuthenticationToken $auth_token
+    ): string
+    {
+        $params = $request->getParams();
+
+        $user = (new FindUserBy($entity_manager))
+            ->execute(['uuid' => $auth_token->getSub()->getUuid()->toString()]);
+
+        if (empty($user)) {
+            throw new RuntimeException('Erro ao conectar-se com o servidor.', 500);
+        }
+
+        $verify_code = (int) @$params['verify_code'];
+
+        if ($user[0]->getVerifyCode() !== $verify_code) {
+            throw new RuntimeException('Código de verificação inválido.', 401);
+        }
+
+        (new UpdateUser($entity_manager))
+            ->execute($user[0]->setVerified(true));
+
+        $response->append('refresh_token', TokenFactory::create($auth_token, $entity_manager));
+
+        return $response->status(200)->send('Email confirmado com sucesso.');
     }
 
     /**
